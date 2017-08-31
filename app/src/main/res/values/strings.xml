@@ -44,4 +44,9 @@
     <string name="supplier_contact">Supplier Contact</string>
     <string name="add_image">Add Image</string>
     <string name="email_supplier">Email Supplier</string>
+    <string name="the_store_is_empty">The Store is Empty</string>
+    <string name="text_add_product">Start by Adding a Product</string>
+    <string name="placeholder_name_text">Product Name</string>
+    <string name="placeholder_text_price">Price</string>
+    <string name="placeholder_text_stock">Stock</string>
 </resources>

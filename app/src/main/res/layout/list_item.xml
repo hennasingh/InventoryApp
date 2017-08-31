@@ -12,10 +12,10 @@
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Product Name"
-            android:textSize="16sp"
-             android:padding="4dp"
-            android:textColor="#006064"/>
+            tools:text="@string/placeholder_name_text"
+            android:textSize="@dimen/text_16sp"
+             android:padding="@dimen/padding_4dp"
+            android:textColor="@color/dark_green"/>
 
 
             <TextView
@@ -23,9 +23,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/product_name"
-                tools:text="Price"
+                tools:text="@string/placeholder_text_price"
                 android:drawableLeft="@drawable/ic_euro"
-                android:textColor="#33691E"/>
+                android:textColor="@color/lime"/>
 
             <TextView
                 android:id="@+id/product_stock"
@@ -34,9 +34,9 @@
                 android:layout_below="@id/product_name"
                 android:drawableLeft="@drawable/ic_collections"
                 android:layout_toRightOf="@id/product_price"
-                android:layout_marginLeft="20dp"
-                tools:text="Stock"
-                android:textColor="#33691E"/>
+                android:layout_marginLeft="@dimen/margin_20dp"
+                tools:text="@string/placeholder_text_stock"
+                android:textColor="@color/lime"/>
 
 
     <ImageButton
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_cart"
-        android:background="#7CB342"
-        android:padding="4dp"/>
+        android:background="@color/lime_dark"
+        android:padding="@dimen/padding_4dp"/>
 
     </RelativeLayout>
 

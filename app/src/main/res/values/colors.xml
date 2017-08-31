@@ -6,4 +6,8 @@
     <color name="light_green">#C5E1A5</color>
     <color name="dark_green">#006064</color>
     <color name="sea_green">#9CCC65</color>
+    <color name="violet">#7B1FA2</color>
+    <color name="light_purple">#512DA8</color>
+    <color name="lime">#33691E</color>
+    <color name="lime_dark">#7CB342</color>
 </resources>
