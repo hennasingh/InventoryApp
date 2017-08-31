@@ -37,4 +37,11 @@
     <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_craft_failed">Error with saving craft</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
+    <string name="craft_name">Craft Name</string>
+    <string name="craft_price">Price</string>
+    <string name="craft_quantity">Quantity</string>
+    <string name="supplier_name">Supplier Name</string>
+    <string name="supplier_contact">Supplier Contact</string>
+    <string name="add_image">Add Image</string>
+    <string name="email_supplier">Email Supplier</string>
 </resources>

@@ -11,8 +11,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:background="#C5E1A5"
-    android:padding="16dp">
+    android:background="@color/light_green"
+    android:padding="@dimen/padding_16dp">
 
     <LinearLayout
         android:id="@+id/ll_container"
@@ -26,53 +26,64 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="@dimen/padding_12dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="@dimen/margin_26dp"
             android:gravity="end"
-            android:text="Craft Name"
-            android:textColor="#006064"
-            android:textSize="20sp" />
+            android:text="@string/craft_name"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/text_20sp" />
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="@dimen/margin_26dp"
             android:gravity="end"
-            android:text="Price"
-            android:textColor="#006064"
-            android:textSize="20sp" />
+            android:text="@string/craft_price"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/text_20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="@dimen/margin_26dp"
             android:gravity="end"
-            android:text="Quantity"
-            android:textColor="#006064"
-            android:textSize="20sp" />
+            android:text="@string/craft_quantity"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/text_20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="@dimen/margin_26dp"
             android:gravity="end"
-            android:text="Supplier"
-            android:textColor="#006064"
-            android:textSize="20sp" />
+            android:text="@string/supplier_name"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/text_20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="@dimen/margin_26dp"
             android:gravity="end"
-            android:text="Supplier Contact"
-            android:textColor="#006064"
-            android:textSize="20sp" />
+            android:text="@string/supplier_contact"
+            android:textColor="@color/dark_green"
+            android:textSize="@dimen/text_20sp" />
+
+         <Button
+             android:id="@+id/email_supplier"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/email_supplier"
+             android:padding="@dimen/padding_10dp"
+             android:layout_gravity="center"
+             android:layout_marginTop="@dimen/margin_5dp"
+             android:background="@color/sea_green"
+             android:textColor="@color/dark_green"/>
 
 
     </LinearLayout>
@@ -90,52 +101,76 @@
             android:id="@+id/edit_craft_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
             android:inputType="textCapWords"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_14sp" />
 
 
         <EditText
             android:id="@+id/edit_craft_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
             android:drawableLeft="@drawable/ic_euro"
             android:inputType="numberDecimal"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_14sp" />
 
-        <EditText
-            android:id="@+id/edit_craft_stock"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:inputType="number"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_increase"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:background="@color/sea_green"/>
+
+            <EditText
+                android:id="@+id/edit_craft_stock"
+                android:layout_width="0dp"
+                android:layout_weight="2.2"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_16dp"
+                android:inputType="number"
+                android:textSize="@dimen/text_14sp" />
+
+            <Button
+                android:id="@+id/button_decrease"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:background="@color/sea_green"/>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_craft_supplier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
             android:inputType="textCapWords"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_14sp" />
 
         <EditText
             android:id="@+id/edit_craft_supplier_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/padding_16dp"
             android:inputType="number"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_14sp" />
 
         <Button
             android:id="@+id/button_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Image"
+            android:text="@string/add_image"
             android:layout_gravity="center"
-            android:background="#9CCC65"
-            android:textColor="#006064"/>
+            android:background="@color/sea_green"
+            android:textColor="@color/dark_green"/>
 
         </LinearLayout>
 
@@ -143,11 +178,11 @@
 
     <ImageView
         android:id="@+id/craft_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/width_200dp"
+        android:layout_height="@dimen/width_200dp"
         android:layout_below="@id/ll_container"
         android:layout_centerHorizontal="true"
         android:src="@drawable/placeholder"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="@dimen/padding_16dp"/>
 </RelativeLayout>
 </ScrollView>

@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,6 +51,8 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int CRAFT_LOADER=0;
 
+    Button mIncreaseStock,mDecreaseStock, mButtonEmail;
+
     private Uri imageUri;
     private Uri currentCraftUri;
 
@@ -67,6 +70,7 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
             invalidateOptionsMenu();
         }else{
             setTitle(getString(R.string.editor_activity_edit_craft_title));
+            getLoaderManager().initLoader(CRAFT_LOADER,null,this);
         }
 
         // Find all relevant views that we will need to read user input from
@@ -76,6 +80,10 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
         mSupplierEditText = (EditText) findViewById(R.id.edit_craft_supplier);
         mSupplierContactEditText = (EditText) findViewById(R.id.edit_craft_supplier_contact);
         Button mAddImageButton = (Button)findViewById(R.id.button_image);
+         mIncreaseStock = (Button)findViewById(R.id.button_increase);
+         mDecreaseStock = (Button)findViewById(R.id.button_decrease);
+        mButtonEmail = (Button)findViewById(R.id.email_supplier);
+
         mImageView = (ImageView)findViewById(R.id.craft_image);
 
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -84,8 +92,6 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
         mSupplierEditText.setOnTouchListener(mTouchListener);
         mSupplierContactEditText.setOnTouchListener(mTouchListener);
 
-        mAddImageButton.setOnTouchListener(mTouchListener);
-
         mAddImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,8 +99,34 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
             }
         });
 
-        getLoaderManager().initLoader(CRAFT_LOADER,null,this);
+      }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (imageUri != null) {
+            outState.putString(STATE_IMAGE_URI, imageUri.toString());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState.containsKey(STATE_IMAGE_URI) &&
+                !savedInstanceState.getString(STATE_IMAGE_URI).equals("")) {
+            imageUri = Uri.parse(savedInstanceState.getString(STATE_IMAGE_URI));
+
+            ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    mImageView.setImageBitmap(getBitmapFromUri(imageUri));
+                }
+            });
+        }
     }
 
     /**
@@ -470,27 +502,82 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if(cursor.moveToFirst()) {
-            String name = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_NAME));
+            final String name = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_NAME));
             double price = cursor.getDouble(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_PRICE));
-            int stock = cursor.getInt(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_QUANTITY));
+            final int stock = cursor.getInt(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_QUANTITY));
             String supplier = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_SUPPLIER));
             String supplierContact = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_SUPPLIER_CONTACT));
-            String imageIcon = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_PICTURE));
+            final String imageIcon = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_PICTURE));
 
 
-            //populate fields
-            if(imageIcon!=null){
-                mImageView.setImageBitmap(getBitmapFromUri(imageUri));
-            }else{
-                mImageView.setImageResource(R.drawable.placeholder);
-            }
+            // Display image attached to the product
+            ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    mImageView.setImageBitmap(getBitmapFromUri(Uri.parse(imageIcon)));
+                }
+            });
+
             mNameEditText.setText(name);
             mPriceEditText.setText(String.valueOf(price));
             mStockEditText.setText(String.valueOf(stock));
             mSupplierEditText.setText(supplier);
             mSupplierContactEditText.setText(supplierContact);
 
+            mIncreaseStock.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    //increase stock by 1
+                    adjustStock(currentCraftUri, (stock + 1));
+                }
+            });
+
+            mDecreaseStock.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    //decrease stock by 1
+                    adjustStock(currentCraftUri, (stock - 1));
+                }
+            });
+
+            // Set OnClickListener on email
+            mButtonEmail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String email="hennasingh04@gmail.com";
+                    orderStockByEmail(email, "Re-Ordering Stock for Product " + name);
+                }
+            });
+
         }
+
+    }
+
+    /**
+     * Method to send email to supplier
+     * @param emailAddress - email-id of supplier
+     * @param emailSubject - email subject
+     */
+    public void orderStockByEmail (String emailAddress, String emailSubject) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, emailAddress);
+        intent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void adjustStock(Uri itemUri, int newStockCount) {
+        if (newStockCount < 0) {
+            return ;
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(CraftsContract.CraftEntry.COLUMN_CRAFT_QUANTITY, newStockCount);
+        int numRowsUpdated = getContentResolver().update(itemUri, values, null, null);
 
     }
 
