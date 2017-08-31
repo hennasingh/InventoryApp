@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:background="#C5E1A5"
+    android:padding="16dp">
+
+         <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Product Name"
+            android:textSize="16sp"
+             android:padding="4dp"
+            android:textColor="#006064"/>
+
+
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_name"
+                tools:text="Price"
+                android:drawableLeft="@drawable/ic_euro"
+                android:textColor="#33691E"/>
+
+            <TextView
+                android:id="@+id/product_stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_name"
+                android:drawableLeft="@drawable/ic_collections"
+                android:layout_toRightOf="@id/product_price"
+                android:layout_marginLeft="20dp"
+                tools:text="Stock"
+                android:textColor="#33691E"/>
+
+
+    <ImageButton
+        android:id="@+id/button_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_cart"
+        android:background="#7CB342"
+        android:padding="4dp"/>
+
+    </RelativeLayout>
+
+
+
