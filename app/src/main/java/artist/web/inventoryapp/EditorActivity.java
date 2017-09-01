@@ -460,7 +460,7 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
                 // If the new content URI is null, then there was an error with insertion.
                 Toast.makeText(this, getString(R.string.editor_insert_craft_successful),
                         Toast.LENGTH_SHORT).show();
-                finish();
+
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_insert_craft_failed),
@@ -468,6 +468,7 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
             }
 
         }
+        finish();
       }
     }
 
@@ -509,16 +510,20 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
             String supplierContact = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_SUPPLIER_CONTACT));
             final String imageIcon = cursor.getString(cursor.getColumnIndex(CraftsContract.CraftEntry.COLUMN_CRAFT_PICTURE));
 
+            if(imageIcon!=null) {
 
-            // Display image attached to the product
-            ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
-            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    mImageView.setImageBitmap(getBitmapFromUri(Uri.parse(imageIcon)));
-                }
-            });
+                // Display image attached to the product
+                ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        mImageView.setImageBitmap(getBitmapFromUri(Uri.parse(imageIcon)));
+                    }
+                });
+
+                imageUri = Uri.parse(imageIcon);
+            }
 
             mNameEditText.setText(name);
             mPriceEditText.setText(String.valueOf(price));
@@ -589,6 +594,6 @@ implements LoaderManager.LoaderCallbacks<Cursor> {
         mStockEditText.setText("");
         mSupplierEditText.setText("");
         mSupplierContactEditText.setText("");
-        mImageView.setImageResource(R.drawable.placeholder);
+
     }
 }
